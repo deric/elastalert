@@ -47,7 +47,7 @@ WORKDIR "${ELASTALERT_HOME}"
 RUN python setup.py install && \
     pip install -e . && \
     pip uninstall twilio --yes && \
-    pip install twilio==6.0.0 && \
+    pip install twilio>=6.0.0 && \
 
 # Install Supervisor.
     easy_install supervisor && \
@@ -56,26 +56,10 @@ RUN python setup.py install && \
     mkdir -p "${CONFIG_DIR}" && \
     mkdir -p "${RULES_DIRECTORY}" && \
     mkdir -p "${LOG_DIR}" && \
-    mkdir -p /var/empty && \
-
-# Clean up.
-    apk del python2-dev && \
-    apk del musl-dev && \
-    apk del gcc && \
-    apk del openssl-dev && \
-    apk del libffi-dev && \
-    rm -rf /var/cache/apk/*
-
-# Copy the script used to launch the Elastalert when a container is started.
-COPY ./start-elastalert.sh /opt/
-# Make the start-script executable.
-RUN chmod +x /opt/start-elastalert.sh
+    mkdir -p /var/empty
 
 # Define mount points.
 VOLUME [ "${CONFIG_DIR}", "${RULES_DIRECTORY}", "${LOG_DIR}"]
-
-# Launch Elastalert when a container is started.
-CMD ["/opt/start-elastalert.sh"]
 
 FROM node:alpine
 MAINTAINER BitSensor <dev@bitsensor.io>
