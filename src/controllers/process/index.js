@@ -88,15 +88,8 @@ export default class ProcessController {
     logger.info('Starting elastalert with arguments ' + (startArguments.join(' ') || '[none]'));
 
     this._process = spawn('python', ['-m', 'elastalert.elastalert'].concat(startArguments), {
-      cwd: this._elastalertPath
-    });
-
-    // Redirect stdin/stderr to logger
-    this._process.stdout.on('data', (data) => {
-      process.stdout.write(data.toString());
-    });
-    this._process.stderr.on('data', (data) => {
-      process.stderr.write(data.toString());
+      cwd: this._elastalertPath,
+      stdio       : ['ignore', '/dev/stdout', '/dev/stderr']
     });
 
     logger.info(`Started Elastalert (PID: ${this._process.pid})`);
