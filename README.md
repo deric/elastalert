@@ -1,4 +1,10 @@
 # Elastalert Server
+
+
+## versioning
+
+* `1.28.1` -> corresponds to Yelp's elastalert `0.1.28` release
+
 **A server that runs [ElastAlert](https://github.com/Yelp/elastalert) and exposes REST API's for manipulating rules and alerts. It works great in combination with our [ElastAlert Kibana plugin](https://github.com/bitsensor/elastalert-kibana-plugin).**
 
 ![img](https://www.bitsensor.io/assets/img/screenshots/template.gif)
