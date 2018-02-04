@@ -91,16 +91,11 @@ export default class ProcessController {
       cwd: this._elastalertPath
     });
 
+    this._process.stdout.pipe('/dev/stdout');
+    this._process.stderr.pipe('/dev/stderr');
+
     logger.info(`Started Elastalert (PID: ${this._process.pid})`);
     this._status = Status.READY;
-
-    // Redirect stdin/stderr to logger
-    this._process.stdout.on('data', (data) => {
-      logger.info(data.toString());
-    });
-    this._process.stderr.on('data', (data) => {
-      logger.error(data.toString());
-    });
 
     // Set listeners for ElastAlert exit
     this._process.on('exit', (code) => {
