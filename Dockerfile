@@ -32,6 +32,7 @@ RUN apk update && apk upgrade && apk add --no-cache nodejs nodejs-npm curl tzdat
 
 COPY --from=py-ea /usr/lib/python2.7/site-packages /usr/lib/python2.7/site-packages
 COPY --from=py-ea /opt/elastalert /opt/elastalert
+COPY --from=py-ea /usr/bin/elastalert* /usr/bin/
 
 WORKDIR /opt/elastalert-server
 COPY . /opt/elastalert-server
