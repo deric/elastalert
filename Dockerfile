@@ -1,9 +1,5 @@
 FROM alpine:latest as py-ea
 ARG VERSION
-# Set this environment variable to True to set timezone on container start.
-ENV SET_CONTAINER_TIMEZONE False
-# Default container timezone as found under the directory /usr/share/zoneinfo/.
-ENV CONTAINER_TIMEZONE Etc/UTC
 # URL from which to download Elastalert.
 ENV ELASTALERT_URL https://github.com/Yelp/elastalert/archive/$VERSION.zip
 # Elastalert home directory full path.
@@ -27,6 +23,10 @@ RUN python setup.py install && \
     pip install -r requirements.txt
 
 FROM alpine:latest
+# Set this environment variable to True to set timezone on container start.
+ENV SET_CONTAINER_TIMEZONE False
+# Default container timezone as found under the directory /usr/share/zoneinfo/.
+ENV CONTAINER_TIMEZONE Etc/UTC
 
 RUN apk update && apk upgrade && apk add --no-cache nodejs nodejs-npm curl tzdata python2
 
