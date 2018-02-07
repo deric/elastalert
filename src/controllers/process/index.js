@@ -41,12 +41,14 @@ export default class ProcessController {
     // Start ElastAlert from the directory specified in the config
     logger.info('Starting ElastAlert');
     this._status = Status.STARTING;
+    var stdout = fs.openSync('/dev/stdout', 'a');
+    var stderr = fs.openSync('/dev/stderr', 'a');
 
     // Create ElastAlert index if it doesn't exist yet
     logger.info('Creating index');
     var indexCreate = spawnSync('python', ['-m', 'elastalert.create_index', '--index', 'elastalert_status', '--old-index', ''], {
       cwd: this._elastalertPath,
-      stdio: ['ignore', fs.openSync('/dev/stdout', 'a'), fs.openSync('/dev/stderr', 'a')]
+      stdio: ['ignore', stdout, stderr]
     });
 
     // Set listeners for index create exit
@@ -88,7 +90,7 @@ export default class ProcessController {
 
     this._process = spawn('python', ['-m', 'elastalert.elastalert'].concat(startArguments), {
       cwd: this._elastalertPath,
-      stdio: ['ignore', fs.openSync('/dev/stdout', 'a'), fs.openSync('/dev/stderr', 'a')]
+      stdio: ['ignore', stdout, stderr]
     });
 
     logger.info(`Started Elastalert (PID: ${this._process.pid})`);
