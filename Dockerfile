@@ -22,13 +22,13 @@ WORKDIR "${ELASTALERT_HOME}"
 RUN python setup.py install && \
     pip install -r requirements.txt
 
-FROM alpine:latest
+FROM node:alpine
 # Set this environment variable to True to set timezone on container start.
 ENV SET_CONTAINER_TIMEZONE False
 # Default container timezone as found under the directory /usr/share/zoneinfo/.
 ENV CONTAINER_TIMEZONE Etc/UTC
 
-RUN apk update && apk upgrade && apk add --no-cache nodejs nodejs-npm curl tzdata python2
+RUN apk update && apk upgrade && apk add --no-cache curl tzdata python2
 
 COPY --from=py-ea /usr/lib/python2.7/site-packages /usr/lib/python2.7/site-packages
 COPY --from=py-ea /opt/elastalert /opt/elastalert
