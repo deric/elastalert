@@ -7,6 +7,7 @@ export default function statusHandler(request, response) {
   var server = request.app.get('server');
   var status = server.processController.status;
 
+  response.statusCode = server.processController.httpCode;
   response.send({
     status: Status(status)
   });
